@@ -15,7 +15,7 @@
     gap: 20px;
 }
 
-.mainSection .products {
+.mainSection .productContainer {
     height: 100%;
     width: 70%;
     background-color: pink;
@@ -26,7 +26,7 @@
     gap: 16px;
 }
 
-.mainSection .products .product {
+.mainSection .productContainer .product {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -36,31 +36,31 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-.mainSection .products .product .img-container img{
+.mainSection .productContainer .product .img-container img{
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 15px 15px 0 0;
 }
 
-.mainSection .products .product .content-container{
+.mainSection .productContainer .product .content-container{
     display: flex;
     justify-content: space-between;
     color: black;
     padding: 10px;
 }
 
-.mainSection .products .product .content-container div{
+.mainSection .productContainer .product .content-container div{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.mainSection .products .product .content-container .content-one span{
+.mainSection .productContainer .product .content-container .content-one span{
     color: rgb(68, 68, 68);
 }
 
-.mainSection .products .product .content-container .content-two button{
+.mainSection .productContainer .product .content-container .content-two button{
     border: none;
     padding: 10px;
     font-weight: 600;
