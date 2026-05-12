@@ -17,6 +17,7 @@
 
 .mainSection .productContainer {
     height: 100%;
+    overflow-y: auto;
     width: 70%;
     background-color: pink;
     border-radius: 20px;
@@ -72,6 +73,7 @@
 
 .mainSection .cart {
     height: 100%;
+    overflow-y: auto;
     width: 30%;
     background-color: pink;
     border-radius: 20px;
