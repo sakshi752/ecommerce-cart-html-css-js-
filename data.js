@@ -2,7 +2,7 @@ const products = [
   {
     id: 1,
     title: "Wireless Headphones",
-    price: 1999,
+    price: 10,
     image: "images/img1.jpg",
     description: "High quality wireless headphones with noise cancellation",
     category: "electronics",
@@ -25,6 +25,14 @@ const products = [
   },
   {
     id: 4,
+    title: "Backpack",
+    price: 999,
+    image: "images/img1.jpg",
+    description: "Durable backpack for travel and office",
+    category: "accessories",
+  },
+    {
+    id: 5,
     title: "Backpack",
     price: 999,
     image: "images/img1.jpg",

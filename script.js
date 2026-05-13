@@ -3,6 +3,7 @@ let allProducts = products;
 const productContainer = document.querySelector("#productContainer");
 const cartItemsContainer = document.querySelector("#cart")
 let cartItems = [];
+const price = document.querySelector("#price");
 
 allProducts.forEach(product => {
     const productDiv = document.createElement("div");
@@ -69,7 +70,7 @@ productContainer.addEventListener("click", (e) => {
     const addBtn = e.target.closest(".add-btn");
     if (!addBtn) return;
     const id = Number(addBtn.dataset.id);
-    if (cartItems.length ==0) {
+    if (cartItems.length == 0) {
         cartItemsContainer.innerHTML = ""
     }
 
@@ -88,6 +89,7 @@ productContainer.addEventListener("click", (e) => {
 
         renderCartItem(selectedProduct);
         saveToLocalStorage();
+        updatePrice();
     }
 });
 
@@ -124,7 +126,7 @@ const renderCartItem = (cartItemData) => {
     cartItemInfoTwo.classList.add("infoTwo");
     cartItemInfoTwo.innerHTML = cartItemInfoTwo.innerHTML = `
     <h2>${item.title}</h2>
-    <h3>${item.price}</h3>
+    <h3>$${item.price * item.quantity}</h3>
 `;
 
     const cartItemInfoThere = document.createElement("div");
@@ -167,6 +169,7 @@ cartItemsContainer.addEventListener("click", (e) => {
                 renderCartItem(item);
             })
         }
+        updatePrice()
         return;
     }
 
@@ -185,6 +188,7 @@ cartItemsContainer.addEventListener("click", (e) => {
         cartItems.forEach(item => {
             renderCartItem(item);
         });
+          updatePrice()
         return
     }
 
@@ -208,10 +212,19 @@ cartItemsContainer.addEventListener("click", (e) => {
                 renderCartItem(item);
             });
         }
-
-
+        updatePrice();
+        return;
     }
+
+  
 })
+
+const updatePrice = () => {
+    const priceAmt = cartItems.reduce((total, item) => {
+        return total + item.price * item.quantity;
+    }, 0);
+    price.textContent = `$${priceAmt}`
+}
 
 const saveToLocalStorage = () => {
     localStorage.setItem("cart", JSON.stringify(cartItems));

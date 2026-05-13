@@ -70,11 +70,31 @@
     border-radius: 2px;
 }
 
+.mainSection .cart-container{
+    height: 100%;
+    width: 30%;
+    background-color: pink;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.mainSection .cart-container .priceContainer{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    color: black;
+    font-size: 25px;
+    border-radius: 20px;
+    font-weight: 600;
+}
 
-.mainSection .cart {
+.mainSection  .cart-container .cart {
     height: 100%;
     overflow-y: auto;
-    width: 30%;
+    width: 100%;
     background-color: pink;
     border-radius: 20px;
     padding: 20px;
@@ -83,24 +103,24 @@
     gap: 10px;
 }
 
-.mainSection .cart .cart-item{
+.mainSection  .cart-container .cart .cart-item{
     display: flex;
     gap: 20px;
     background: white;
     color: black;
     border-radius: 15px;
 }
-.mainSection .cart .cart-item .cart-image{
+.mainSection .cart-container .cart .cart-item .cart-image{
     width: 25%;
 }
-.mainSection .cart .cart-item .cart-image img{
+.mainSection .cart-container .cart .cart-item .cart-image img{
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 15px;
 }
 
-.mainSection .cart .cart-item .cart-info{
+.mainSection .cart-container .cart .cart-item .cart-info{
   padding: 10px 7px;
     width: 65%;
     display: flex;
@@ -108,27 +128,27 @@
     gap: 10px;
 }
 
-.mainSection .cart .cart-item .cart-info .infoOne{
+.mainSection .cart-container .cart .cart-item .cart-info .infoOne{
       display: flex;
     justify-content: flex-end;
     width: 100%;
 }
 
-.mainSection .cart .cart-item .cart-info .infoTwo{
+.mainSection .cart-container .cart .cart-item .cart-info .infoTwo{
     display: flex;
     justify-content: space-between;
 }
 
-.mainSection .cart .cart-item .cart-info .infoThree{
+.mainSection .cart-container .cart .cart-item .cart-info .infoThree{
     display: flex;
     font-size: larger;
     font-weight: 600;
 }
 
-.mainSection .cart .cart-item .cart-info .infoThree span{
+.mainSection .cart-container .cart .cart-item .cart-info .infoThree span{
     padding: 8px;
 }
-.mainSection .cart .cart-item .cart-info .infoThree button{
+.mainSection .cart-container .cart .cart-item .cart-info .infoThree button{
     background-color: rgba(128, 128, 128, 0.669);
     color: white;
     border: none;
