@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         cartItems.forEach(item => renderCartItem(item));
     }
+    updatePrice()
 });
 
 productContainer.addEventListener("click", (e) => {
@@ -174,8 +175,8 @@ cartItemsContainer.addEventListener("click", (e) => {
     }
 
     // Increase quantity logic
+    // check if item exists => then inc the quantity => save to local storage => render updated cart => update price 
     const incQuantityBtn = e.target.closest(".increase-btn");
-    console.log("incQuantityBtn ", incQuantityBtn);
     if (incQuantityBtn) {
         const id = Number(incQuantityBtn.dataset.id);
         const requiredItem = cartItems.find(item => item.id == id);
@@ -188,11 +189,12 @@ cartItemsContainer.addEventListener("click", (e) => {
         cartItems.forEach(item => {
             renderCartItem(item);
         });
-          updatePrice()
+        updatePrice()
         return
     }
 
     // Decrease quantity logic
+    //check if item exist => if quantity == 1 then filter it out => else dec quantity => then save to local storage => then if cart len is 0 then update cart is empty => else render updated cart  and then update price 
     const decQuantityBtn = e.target.closest(".decrease-btn");
     if (decQuantityBtn) {
         const id = Number(decQuantityBtn.dataset.id);
@@ -216,14 +218,19 @@ cartItemsContainer.addEventListener("click", (e) => {
         return;
     }
 
-  
+
 })
 
 const updatePrice = () => {
-    const priceAmt = cartItems.reduce((total, item) => {
-        return total + item.price * item.quantity;
-    }, 0);
-    price.textContent = `$${priceAmt}`
+    if (cartItems.length == 0) {
+        price.textContent = `$${0}`
+    } else {
+        const priceAmt = cartItems.reduce((total, item) => {
+            return total + item.price * item.quantity;
+        }, 0);
+        price.textContent = `$${priceAmt}`
+    }
+
 }
 
 const saveToLocalStorage = () => {
