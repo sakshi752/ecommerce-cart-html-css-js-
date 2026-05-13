@@ -36,7 +36,7 @@ allProducts.forEach(product => {
     contentTwo.classList.add("content-two");
 
     const priceHeading = document.createElement("h3");
-    priceHeading.textContent = product.price;
+    priceHeading.textContent = `$${product.price}`;
 
     const addButton = document.createElement("button");
     addButton.textContent = "Add";
@@ -77,7 +77,17 @@ productContainer.addEventListener("click", (e) => {
 
     const isProductPresent = cartItems.find((item) => item.id === id);
     if (isProductPresent) {
+        // update the quantity of the product
+        isProductPresent.quantity++;
 
+        saveToLocalStorage();
+
+        cartItemsContainer.innerHTML = "";
+
+        cartItems.forEach(item => {
+            renderCartItem(item);
+        });
+        updatePrice()
     } else {
         // take the product from actual product list
         const selectedProduct = allProducts.find(
