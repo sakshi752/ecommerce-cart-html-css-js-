@@ -85,13 +85,15 @@ productContainer.addEventListener("click", (e) => {
             quantity: 1
         });
 
-        renderCartItems();
+        renderCartItem(selectedProduct);
     }
 });
 
-const renderCartItems = () => {
+const renderCartItem = (cartItemData) => {
     console.log(cartItems);
-    cartItems.forEach(item => {
+
+       const item = cartItems.find((data)=>cartItemData.id==data.id);
+        
         const cartItem = document.createElement("div");
         cartItem.classList.add("cart-item");
 
@@ -142,17 +144,4 @@ const renderCartItems = () => {
 
        cartItemsContainer.appendChild(cartItem);
 
-
-        //     [
-        //     {
-        //         "id": 1,
-        //         "title": "Wireless Headphones",
-        //         "price": 1999,
-        //         "image": "images/img1.jpg",
-        //         "description": "High quality wireless headphones with noise cancellation",
-        //         "category": "electronics",
-        //         "quantity": 1
-        //     }
-        // ]
-    })
 }
