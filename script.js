@@ -55,15 +55,13 @@ allProducts.forEach(product => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Page loaded");
+    // check if cart is present in local storage
+    cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // check something
-    const token = localStorage.getItem("token");
-
-    if (cartItems.length==0) {
+    if (cartItems.length == 0) {
         cartItemsContainer.innerHTML = "<h2>The cart is empty!</h2>"
     } else {
-        console.log("No token");
+        cartItems.forEach(item => renderCartItem(item));
     }
 });
 
@@ -71,6 +69,9 @@ productContainer.addEventListener("click", (e) => {
     const addBtn = e.target.closest(".add-btn");
     if (!addBtn) return;
     const id = Number(addBtn.dataset.id);
+    if (cartItems.length ==0) {
+        cartItemsContainer.innerHTML = ""
+    }
 
     const isProductPresent = cartItems.find((item) => item.id === id);
     if (isProductPresent) {
@@ -86,62 +87,132 @@ productContainer.addEventListener("click", (e) => {
         });
 
         renderCartItem(selectedProduct);
+        saveToLocalStorage();
     }
 });
 
 const renderCartItem = (cartItemData) => {
-    console.log(cartItems);
 
-       const item = cartItems.find((data)=>cartItemData.id==data.id);
-        
-        const cartItem = document.createElement("div");
-        cartItem.classList.add("cart-item");
+    const item = cartItems.find((data) => cartItemData.id == data.id);
 
-        const cartItemImgContainer = document.createElement("div");
-        cartItemImgContainer.classList.add("cart-image");
+    const cartItem = document.createElement("div");
+    cartItem.classList.add("cart-item");
 
-        const cartItemImg = document.createElement("img");
-        cartItemImg.src = item.image;
+    const cartItemImgContainer = document.createElement("div");
+    cartItemImgContainer.classList.add("cart-image");
 
-        cartItemImgContainer.appendChild(cartItemImg);
+    const cartItemImg = document.createElement("img");
+    cartItemImg.src = item.image;
 
-        const cartItemInfo = document.createElement("div");
-        cartItemInfo.classList.add("cart-info");
+    cartItemImgContainer.appendChild(cartItemImg);
 
-        //info one
-        const cartItemInfoOne = document.createElement("div");
-        cartItemInfoOne.classList.add("infoOne");
+    const cartItemInfo = document.createElement("div");
+    cartItemInfo.classList.add("cart-info");
 
-        cartItemInfoOne.innerHTML = `
+    //info one
+    const cartItemInfoOne = document.createElement("div");
+    cartItemInfoOne.classList.add("infoOne");
+    cartItemInfoOne.dataset.id = item.id;
+
+    cartItemInfoOne.innerHTML = `
     <span>
         <i class="fa-solid fa-x"></i>
     </span>
 `;
 
-        const cartItemInfoTwo = document.createElement("div");
-        cartItemInfoTwo.classList.add("infoTwo");
-        cartItemInfoTwo.innerHTML = cartItemInfoTwo.innerHTML = `
+    const cartItemInfoTwo = document.createElement("div");
+    cartItemInfoTwo.classList.add("infoTwo");
+    cartItemInfoTwo.innerHTML = cartItemInfoTwo.innerHTML = `
     <h2>${item.title}</h2>
     <h3>${item.price}</h3>
 `;
-        
-        const cartItemInfoThere = document.createElement("div");
-        cartItemInfoThere.classList.add("infoThree");
 
-        cartItemInfoThere.innerHTML = `
-    <button>-</button>
+    const cartItemInfoThere = document.createElement("div");
+    cartItemInfoThere.classList.add("infoThree");
+
+    cartItemInfoThere.innerHTML = `
+    <button class ="decrease-btn" data-id="${item.id}">-</button>
     <span>${item.quantity}</span>
-    <button>+</button>
+    <button class ="increase-btn" data-id="${item.id}">+</button>
 `;
 
-       cartItemInfo.appendChild(cartItemInfoOne);
-       cartItemInfo.appendChild(cartItemInfoTwo);
-       cartItemInfo.appendChild(cartItemInfoThere);
+    cartItemInfo.appendChild(cartItemInfoOne);
+    cartItemInfo.appendChild(cartItemInfoTwo);
+    cartItemInfo.appendChild(cartItemInfoThere);
 
 
-       cartItem.appendChild(cartItemImgContainer);
-       cartItem.appendChild(cartItemInfo);
+    cartItem.appendChild(cartItemImgContainer);
+    cartItem.appendChild(cartItemInfo);
 
-       cartItemsContainer.appendChild(cartItem);
+    cartItemsContainer.appendChild(cartItem);
 
+}
+
+cartItemsContainer.addEventListener("click", (e) => {
+
+    // Delete logic
+    const closeBtn = e.target.closest(".infoOne");
+    if (closeBtn) {
+        const id = Number(closeBtn.dataset.id);
+        cartItems = cartItems.filter((item) => item.id != id);
+
+        saveToLocalStorage();
+
+        cartItemsContainer.innerHTML = "";
+        if (cartItems.length == 0) {
+            cartItemsContainer.innerHTML =
+                "<h2>The cart is empty!</h2>";
+        } else {
+            cartItems.forEach(item => {
+                renderCartItem(item);
+            })
+        }
+        return;
+    }
+
+    // Increase quantity logic
+    const incQuantityBtn = e.target.closest(".increase-btn");
+    console.log("incQuantityBtn ", incQuantityBtn);
+    if (incQuantityBtn) {
+        const id = Number(incQuantityBtn.dataset.id);
+        const requiredItem = cartItems.find(item => item.id == id);
+        requiredItem.quantity++;
+
+        saveToLocalStorage();
+
+        cartItemsContainer.innerHTML = "";
+
+        cartItems.forEach(item => {
+            renderCartItem(item);
+        });
+        return
+    }
+
+    // Decrease quantity logic
+    const decQuantityBtn = e.target.closest(".decrease-btn");
+    if (decQuantityBtn) {
+        const id = Number(decQuantityBtn.dataset.id);
+        const requiredItem = cartItems.find(item => item.id == id);
+        if (requiredItem.quantity === 1) {
+            cartItems = cartItems.filter(item => item.id != id);
+        } else {
+            requiredItem.quantity--;
+        }
+        saveToLocalStorage();
+        if (cartItems.length == 0) {
+            cartItemsContainer.innerHTML = "<h2>The cart is empty!</h2>"
+        } else {
+            cartItemsContainer.innerHTML = "";
+
+            cartItems.forEach(item => {
+                renderCartItem(item);
+            });
+        }
+
+
+    }
+})
+
+const saveToLocalStorage = () => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
 }
